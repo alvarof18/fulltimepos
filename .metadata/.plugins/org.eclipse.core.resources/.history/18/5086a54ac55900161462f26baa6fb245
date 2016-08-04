@@ -1,0 +1,5 @@
+package com.fulltimepos.modelo;
+
+public class AlmacenServicios extends AlmacenDAO<Almacen>{
+
+}

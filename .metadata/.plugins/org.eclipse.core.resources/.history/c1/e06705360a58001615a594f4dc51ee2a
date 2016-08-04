@@ -1,0 +1,238 @@
+package com.fulltimepos.vista;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
+public class ProveedorView extends MantenimientoGenericoView{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2407667983512285845L;
+
+	  public JLabel lblCodigo;
+	  public JLabel lblNombre;
+	  public JLabel lblRuc;
+	  public JLabel lblDireccion;
+	  public JLabel lblTelefono;
+	  public JLabel lblFax;
+	  public JLabel lblCorreo;
+	  public JLabel lblWeb;
+	  public JLabel lblObservacion;
+	  public JLabel lblActivar;
+	  
+	  public JLabel lblNombreContacto;
+	  public JLabel lblTelefonoContacto;
+	  public JLabel lblCargoContacto;
+	  public JLabel lblCorreoContacto;
+	  
+	  
+	  public JTextField txtCodigo;
+	  public JTextField txtNombre;
+	  public JTextField txtRuc;
+	  public JTextField txtDireccion;
+	  public JTextField txtTelefono;
+	  public JTextField txtFax;
+	  public JTextField txtCorreo;
+	  public JTextField txtWeb;
+	  public JTextField txtObservacion;
+	  
+	  public JTextField txtNombreContacto;
+	  public JTextField txtCorreoContacto;
+	  public JTextField txtCargoContacto;
+	  public JTextField txtTelefonoContacto;
+	  
+	  public JButton btnNuevoContacto;
+	  public JButton btnModificarContacto;
+	  public JButton btnEliminarContacto;
+	  
+	  public JCheckBox activar;
+	  
+	  public JTable gridContatos;
+	  public JTable gridCompras;
+	  public JScrollPane scrollContactos;
+	  
+	  //Tabla Contactos//
+	    protected Object[][] datos; //Cuerpo de la tabla
+	    protected String[] cabecera = null;    //Cabecera de la tabla
+	    public DefaultTableModel dtm;//Unión de la cabecera y la tabla
+	  /////////////////////////////////////////////////
+	  public JPanel contactos;
+	  public JPanel informacion;
+	  		  
+	public ProveedorView(){
+		super();
+		agreagrComponentes();
+		this.setVisible(true);
+		
+	}
+	
+public void agreagrComponentes() {
+		
+	//Etiquetas
+		lblCodigo = new JLabel();
+		lblNombre = new JLabel();
+		lblActivar = new JLabel();
+		lblRuc = new JLabel();
+		lblDireccion = new JLabel();
+		lblTelefono = new JLabel();
+		lblFax = new JLabel();
+		lblCorreo = new JLabel();
+		lblWeb = new JLabel();
+		lblObservacion = new JLabel();
+		
+		lblNombreContacto = new JLabel();
+		lblTelefonoContacto = new JLabel();
+		lblCargoContacto = new JLabel();
+		lblCorreoContacto = new JLabel();
+			
+		lblCodigo.setText("Codigo");
+		lblNombre.setText("Nombre");
+		lblActivar.setText("Activo");
+		lblRuc.setText("RUC");
+		lblDireccion.setText("Direccion");
+		lblTelefono.setText("Telefono");
+		lblFax.setText("FAX");
+		lblCorreo.setText("Correo");
+		lblWeb.setText("Web");
+		lblObservacion.setText("Observacion");
+		
+		lblCodigo.setBounds(40, 30, 89, 30);
+		lblNombre.setBounds(40, 70, 89, 30);
+		lblRuc.setBounds(40, 110, 89, 30);
+		lblDireccion.setBounds(40, 150, 89, 30);
+		lblActivar.setBounds(40, 190, 89, 30);
+		lblTelefono.setBounds(380, 30, 89, 30);
+		lblFax.setBounds(380,70, 89, 30);		
+		lblCorreo.setBounds(380, 110, 89, 30);
+		lblWeb.setBounds(380,150, 89, 30);
+		lblObservacion.setBounds(380, 190, 89, 30);
+		
+		//Contactos
+		
+		
+		
+		// cajas de Texto
+		
+		txtCodigo = new JTextField();
+		txtNombre = new JTextField();
+		txtRuc = new JTextField();
+		txtDireccion = new JTextField();
+		txtTelefono = new JTextField();
+		txtFax = new JTextField();
+		txtCorreo = new JTextField();
+		txtWeb = new JTextField();
+		txtObservacion = new JTextField();
+		
+		txtNombreContacto = new JTextField();
+		txtCorreoContacto = new JTextField();
+		txtCargoContacto = new JTextField();
+		txtTelefonoContacto = new JTextField();
+				
+		txtCodigo.setBounds(109, 35, 100, 20);
+		txtCodigo.setEditable(false);
+		txtNombre.setBounds(109, 75, 201, 20);
+		txtRuc.setBounds(109, 115, 201, 20);
+		txtDireccion.setBounds(109, 155, 201, 20);
+		
+		txtTelefono.setBounds(450, 35, 201, 20);
+		txtFax.setBounds(450, 75, 201, 20);
+		txtCorreo.setBounds(450, 115, 201, 20);
+		txtWeb.setBounds(450, 155, 201, 20);
+		txtObservacion.setBounds(450, 195, 201, 20);
+				
+		activar = new JCheckBox();
+		activar.setBounds(106, 190, 89, 30);
+		     
+		// Panel
+		contactos = new JPanel(new BorderLayout());
+		
+		informacion = new JPanel();
+		//informacion.setBackground(new Color(152, 251, 100));
+		informacion.setPreferredSize(new Dimension(1, 150));
+		informacion.setBorder(BorderFactory.createTitledBorder("Informacion Clientes"));
+		
+		lblNombreContacto.setText("Nombre");
+		lblNombreContacto.setBounds(1, 20, 201, 20);
+		
+		informacion.add(lblNombreContacto);
+		
+		
+		contactos.add(informacion,BorderLayout.SOUTH);
+		
+		
+		
+		
+		//contactos.setBounds(1, 1, 3, 1);
+		//contactos.setBackground(new Color(152, 251, 100));
+		
+		//informacion.setBackground(new Color(152, 251, 152));
+		//informacion.setBorder(new LineBorder(new Color(0, 0, 0)));
+		//informacion.setPreferredSize(new Dimension(650, 150));
+		//informacion.setLayout(mgr);
+		// contactos.add(informacion);
+		//informacion.setLayout(null);
+
+		
+		//Tabla
+		/*
+		gridContatos = new JTable();
+		cabecera = new String[] {"Nombre", "Cargo", "Telefono","Correo"};
+		scrollContactos = new JScrollPane();
+		dtm = new DefaultTableModel(datos,cabecera){
+		       	 @Override
+		      	 public boolean isCellEditable(int row, int column) {
+			        	       return false;
+			        	    } 
+			         };
+		gridContatos.setModel(dtm);
+		gridContatos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollContactos.setViewportView(gridContatos);
+		scrollContactos.setPreferredSize(new Dimension(650, 150));
+		this.contactos.add(scrollContactos);
+		gridContatos.add(informacion);
+		
+		*/
+		this.Pestanas.addTab("Contactos", contactos);		
+		//////////////////
+		this.pGeneral.add(lblActivar);
+		this.pGeneral.add(lblNombre);
+		this.pGeneral.add(lblCodigo);
+		this.pGeneral.add(lblRuc);
+		this.pGeneral.add(lblDireccion);
+		this.pGeneral.add(lblTelefono);
+		this.pGeneral.add(lblFax);
+		this.pGeneral.add(lblCorreo);
+		this.pGeneral.add(lblWeb);
+		this.pGeneral.add(lblObservacion);
+		
+		
+		this.pGeneral.add(txtCodigo);
+		this.pGeneral.add(txtNombre);
+		this.pGeneral.add(txtRuc);
+		this.pGeneral.add(txtDireccion);
+		this.pGeneral.add(txtTelefono);
+		this.pGeneral.add(txtFax);
+		this.pGeneral.add(txtCorreo);
+		this.pGeneral.add(txtWeb);
+		this.pGeneral.add(txtObservacion);
+		
+		this.pGeneral.add(activar);
+		
+		
+	}
+
+}

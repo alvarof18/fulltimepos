@@ -1,0 +1,30 @@
+package com.fulltimepos.controlador;
+
+import com.fulltimepos.modelo.AlmacenServicios;
+import com.fulltimepos.vista.AlmacenView;
+import com.fulltimepos.vista.BusquedaGenericaView;
+import com.fulltimepos.vista.MensajesView;
+
+public class ControladorAlmacen {
+	
+	private AlmacenServicios modelo;
+	private AlmacenView vista;
+	
+	public MensajesView ventanaMensaje  = new MensajesView();
+	public BusquedaGenericaView vistaBusqueda = new BusquedaGenericaView();
+	
+	private String mensaje = "";
+	
+	private boolean actualizar = false;
+	
+	public ControladorAlmacen(AlmacenServicios modelo, AlmacenView vista){
+		
+		this.vista = vista;
+		this.modelo = modelo;
+		
+		
+		
+		
+		
+	}
+}

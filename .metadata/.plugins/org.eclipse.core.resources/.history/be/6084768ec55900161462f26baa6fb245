@@ -1,0 +1,20 @@
+package com.fulltimepos.controlador;
+
+import com.fulltimepos.modelo.AlmacenServicios;
+import com.fulltimepos.vista.AlmacenView;
+
+public class ControladorAlmacen {
+	
+	private AlmacenServicios modelo;
+	private AlmacenView vista;
+	
+	public ControladorAlmacen(AlmacenServicios modelo, AlmacenView vista){
+		
+		this.vista = vista;
+		this.modelo = modelo;
+		
+		
+		
+		
+	}
+}

@@ -1,0 +1,128 @@
+package com.fulltimepos.controlador;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fulltimepos.entidades.Categoria;
+import com.fulltimepos.modelo.AlmacenServicios;
+import com.fulltimepos.modelo.CategoriaServicios;
+import com.fulltimepos.modelo.SucursalServicios;
+import com.fulltimepos.vista.AlmacenView;
+import com.fulltimepos.vista.BusquedaGenericaView;
+import com.fulltimepos.vista.MensajesView;
+
+public class ControladorAlmacen implements ActionListener, MouseListener{
+	
+	private AlmacenServicios modelo;
+	private AlmacenView vista;
+	
+	public MensajesView ventanaMensaje  = new MensajesView();
+	public BusquedaGenericaView vistaBusqueda = new BusquedaGenericaView();
+	
+	private String mensaje = "";
+	
+	private boolean actualizar = false;
+	
+	public ControladorAlmacen(AlmacenServicios modelo, AlmacenView vista){
+		
+		this.vista = vista;
+		this.modelo = modelo;
+		
+		this.vista.setTitle("Almacen");
+		
+		this.vista.btnGuardar.addActionListener(this);
+		this.vista.btnGuardar.setActionCommand("Guardar");
+		this.vista.btnGuardar.setEnabled(false);
+		
+		this.vista.btnNuevo.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent arg0){
+				  nuevoCliente();
+			 }
+			 });
+					
+		this.vista.btnEliminar.addActionListener(this);
+		this.vista.btnEliminar.setActionCommand("Eliminar");
+		this.vista.btnEliminar.setEnabled(false);
+		
+		this.vista.btnModificar.addActionListener(this);
+		this.vista.btnModificar.setActionCommand("Modificar");
+		this.vista.btnModificar.setEnabled(false);
+		
+		this.vista.btnBuscar.addActionListener(this);
+		this.vista.btnBuscar.setActionCommand("Buscar");
+		
+		this.vista.btnCancelar.addActionListener(this);
+		this.vista.btnCancelar.setActionCommand("Cancelar");
+		this.vista.btnCancelar.setEnabled(false);
+		this.vista.setLocationRelativeTo(null);
+		
+		cargarCombos();
+		
+		accionCampos(false);
+		
+		this.vista.setVisible(true);
+		
+		//Vista de Busqueda//
+		
+		this.vistaBusqueda.btnBuscar.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent accion){
+				   buscarDatos();				 
+			 }
+			 });
+		
+		this.vistaBusqueda.tbResultado.addMouseListener(this);	
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void cargarCombos() {
+		//Sucursales
+		SucursalServicios modeloSucursales = new SucursalServicios();
+		List<Categoria> lista = new ArrayList<Categoria>();
+        lista = modeloCategoria.lista();
+		this.vista.cbCategoria.addItem("Seleccione");
+		for(Categoria ca:lista){
+			this.vista.cbCategoria.addItem(ca);
+		}		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+}

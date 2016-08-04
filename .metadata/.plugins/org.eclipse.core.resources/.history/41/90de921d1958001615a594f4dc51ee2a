@@ -1,0 +1,52 @@
+package com.fulltimepos.modelo;
+
+import com.fulltimepos.dao.ProveedorDAO;
+import com.fulltimepos.entidades.Proveedor;
+import com.fulltimepos.utilidades.Validador;
+
+public class ProveedorServicios extends ProveedorDAO<Proveedor>{
+	
+	public String resultado;
+	private Validador valida = new Validador();	
+	
+    public String guardar(String codigo, String ruc, String nombre, String direccion, String telefono, String fax, String correo, 
+		              String web, String observacion, Boolean estado, Boolean actualizar){
+		
+		this.resultado = "";
+		
+		if(!valida.validarRUC(ruc)){
+			
+			
+		}
+		
+				
+		if(descripcion.isEmpty()){
+			resultado = "Llene todos los campos";
+		}
+		
+		if(categoria.getClass().equals(Categoria.class)) {
+			categoriaNew = (Categoria) categoria;
+		}else{
+			 resultado = "Seleccione una categoria";
+		}
+			
+		if(resultado.equals("")){
+			  if(actualizar){
+				subcategoria = super.buscarId(Integer.parseInt(codigo));
+				subcategoria.setDescripcion(descripcion);
+				subcategoria.setEstado(estado);
+				subcategoria.setCategoria(categoriaNew);
+				super.actualizar(subcategoria);
+				
+			  }else{
+				subcategoria.setDescripcion(descripcion);
+				subcategoria.setEstado(estado);	
+				subcategoria.setCategoria(categoriaNew);
+				super.guardar(subcategoria);
+				}	
+			}
+	
+		return resultado;		
+	}
+
+}

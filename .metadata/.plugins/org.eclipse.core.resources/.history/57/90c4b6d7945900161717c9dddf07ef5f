@@ -1,0 +1,7 @@
+package com.fulltimepos.vista;
+
+public class AlmacenView extends  MantenimientoGenericoView{
+	
+	
+
+}

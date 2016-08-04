@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/fulltimepos</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">root</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="hibernate.show_sql">true</property>
+    <mapping class="com.fulltimepos.entidades.TipoContribuyente"></mapping>
+    <mapping class="com.fulltimepos.entidades.TipoIdentificacion"></mapping>
+    <mapping class="com.fulltimepos.entidades.Clientes"></mapping>
+    <mapping class="com.fulltimepos.entidades.Empresa"></mapping>
+    <mapping class="com.fulltimepos.entidades.Sucursal"></mapping>
+    <mapping class="com.fulltimepos.entidades.Usuarios"></mapping>
+    <mapping class="com.fulltimepos.entidades.Cargo"></mapping>
+    <mapping class="com.fulltimepos.entidades.Departamento"></mapping>
+    <mapping class="com.fulltimepos.entidades.Rol"></mapping>
+    <mapping class="com.fulltimepos.entidades.Politicas"></mapping> 
+    <mapping class="com.fulltimepos.entidades.PoliticaRol"></mapping>
+    <mapping class="com.fulltimepos.entidades.Configuracion"></mapping>
+    <mapping class="com.fulltimepos.entidades.Terminales"></mapping>
+    <mapping class="com.fulltimepos.entidades.Almacen"></mapping>
+    <mapping class="com.fulltimepos.entidades.Inventario"></mapping>
+    <mapping class="com.fulltimepos.entidades.Producto"></mapping>
+    <mapping class="com.fulltimepos.entidades.Impuestos"></mapping>
+    <mapping class="com.fulltimepos.entidades.Presentacion"></mapping>
+    <mapping class="com.fulltimepos.entidades.Categoria"></mapping>
+    <mapping class="com.fulltimepos.entidades.SubCategoria"></mapping>
+    <mapping class="com.fulltimepos.entidades.Fabricante"></mapping>
+    <mapping class="com.fulltimepos.entidades.Proveedor"></mapping>
+    <mapping class="com.fulltimepos.entidades.DetalleContacto"></mapping>
+    <mapping class="com.fulltimepos.entidades.Pagos"></mapping>
+    <mapping class="com.fulltimepos.entidades.Estados"></mapping>
+    <mapping class="com.fulltimepos.entidades.PagosCompras"></mapping>
+    <mapping class="com.fulltimepos.entidades.Compras"></mapping>
+    <mapping class="com.fulltimepos.entidades.DetalleCompras"></mapping>
+    <mapping class="com.fulltimepos.entidades.DetallePedido"></mapping>
+    <mapping class="com.fulltimepos.entidades.DetalleFactura"></mapping>
+    <mapping class="com.fulltimepos.entidades.DetalleContacto"></mapping>
+    <mapping class="com.fulltimepos.entidades.Eventos"></mapping>
+    <mapping class="com.fulltimepos.entidades.EventosUbicacion"></mapping>
+    <mapping class="com.fulltimepos.entidades.Factura"></mapping>
+    <mapping class="com.fulltimepos.entidades.Mesas"></mapping>
+    <mapping class="com.fulltimepos.entidades.PagosFacturas"></mapping>
+    <mapping class="com.fulltimepos.entidades.Areas"></mapping>
+  </session-factory>
+</hibernate-configuration>

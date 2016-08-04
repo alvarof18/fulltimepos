@@ -1,0 +1,8 @@
+package com.fulltimepos.dao;
+
+import com.fulltimepos.entidades.Almacen;
+
+@SuppressWarnings("hiding")
+public class AlmacenDAO<Almacen> extends GenericoDAOImplementa<Almacen>{
+
+}

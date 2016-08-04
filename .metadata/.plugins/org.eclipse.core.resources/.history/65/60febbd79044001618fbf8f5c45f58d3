@@ -1,0 +1,21 @@
+package com.fulltimepos.test;
+
+import com.fulltimepos.entidades.TipoContribuyente;
+import com.fulltimepos.modelo.TipoContribuyenteServiciosimp;
+
+public class test {
+
+	public static void main(String[] args) {
+
+		TipoContribuyenteServiciosimp accion = new TipoContribuyenteServiciosimp();
+		TipoContribuyente nuevo = new TipoContribuyente();	
+		nuevo = accion.buscarId(1);
+		
+		
+		//Pendiente crear una sola sesion de hibernate para guardar 
+
+		
+		
+	}
+
+}

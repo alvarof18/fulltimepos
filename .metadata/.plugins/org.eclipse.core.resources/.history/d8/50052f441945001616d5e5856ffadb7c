@@ -1,0 +1,38 @@
+package com.fulltimepos.test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fulltimepos.entidades.TipoContribuyente;
+import com.fulltimepos.modelo.TipoContribuyenteServicios;
+
+
+public class test {
+
+	public static void main(String[] args) {
+		
+		TipoContribuyenteServicios serviciosTC new TipoContribuyenteServicios();
+		
+		
+/*/
+		TipoContribuyenteServiciosimp accion = new TipoContribuyenteServiciosimp();
+		TipoContribuyente nuevo = new TipoContribuyente();
+		List<TipoContribuyente> lista = new ArrayList<TipoContribuyente>();
+		//nuevo.setDescripcion("pruebas2");
+		lista = accion.lista();
+		System.out.println("Tama#o Lista " + lista.size());
+		
+		
+		for(TipoContribuyente tc: lista){
+			
+			System.out.println(tc.toString());
+			System.out.println(" ");
+			
+		}
+		//Pendiente crear una sola sesion de hibernate para guardar 
+
+	*/	
+		
+	}
+
+}

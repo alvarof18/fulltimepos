@@ -1,0 +1,179 @@
+package com.fulltimepos.controlador;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
+import javax.swing.table.TableColumn;
+
+import com.fulltimepos.entidades.Almacen;
+import com.fulltimepos.entidades.Sucursal;
+import com.fulltimepos.modelo.AlmacenServicios;
+import com.fulltimepos.modelo.SucursalServicios;
+import com.fulltimepos.vista.AlmacenView;
+import com.fulltimepos.vista.BusquedaGenericaView;
+import com.fulltimepos.vista.MensajesView;
+
+public class ControladorAlmacen implements ActionListener, MouseListener{
+	
+	private AlmacenServicios modelo;
+	private AlmacenView vista;
+	
+	public MensajesView ventanaMensaje  = new MensajesView();
+	public BusquedaGenericaView vistaBusqueda = new BusquedaGenericaView();
+	
+	private String mensaje = "";
+	
+	private boolean actualizar = false;
+	
+	public ControladorAlmacen(AlmacenServicios modelo, AlmacenView vista){
+		
+		this.vista = vista;
+		this.modelo = modelo;
+		
+		this.vista.setTitle("Almacen");
+		
+		this.vista.btnGuardar.addActionListener(this);
+		this.vista.btnGuardar.setActionCommand("Guardar");
+		this.vista.btnGuardar.setEnabled(false);
+		
+		this.vista.btnNuevo.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent arg0){
+				  nuevoCliente();
+			 }
+			 });
+					
+		this.vista.btnEliminar.addActionListener(this);
+		this.vista.btnEliminar.setActionCommand("Eliminar");
+		this.vista.btnEliminar.setEnabled(false);
+		
+		this.vista.btnModificar.addActionListener(this);
+		this.vista.btnModificar.setActionCommand("Modificar");
+		this.vista.btnModificar.setEnabled(false);
+		
+		this.vista.btnBuscar.addActionListener(this);
+		this.vista.btnBuscar.setActionCommand("Buscar");
+		
+		this.vista.btnCancelar.addActionListener(this);
+		this.vista.btnCancelar.setActionCommand("Cancelar");
+		this.vista.btnCancelar.setEnabled(false);
+		this.vista.setLocationRelativeTo(null);
+		
+		cargarCombos();
+		
+		accionCampos(false);
+		
+		this.vista.setVisible(true);
+		
+		//Vista de Busqueda//
+		vistaBusqueda.tbResultado.removeColumn(col);
+		this.vistaBusqueda.btnBuscar.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent accion){
+				   buscarDatos();				 
+			 }
+			 });
+		
+		this.vistaBusqueda.tbResultado.addMouseListener(this);	
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void cargarCombos() {
+		//Sucursales
+		SucursalServicios modeloSucursales = new SucursalServicios();
+		List<Sucursal> lista = new ArrayList<Sucursal>();
+        lista = modeloSucursales.lista();
+		this.vista.cbSucursal.addItem("Seleccione");
+		for(Sucursal su:lista){
+			this.vista.cbSucursal.addItem(su);
+		}		
+	}
+	
+	private void buscarDatos() {
+		
+	      TableColumn col = vistaBusqueda.tbResultado.getColumnModel().getColumn(0);
+	    
+		
+		List<Almacen> lista = new ArrayList<Almacen>();
+		Vector<Object> fila;
+		
+		// Limpio la tabla
+		 for(int i=this.vistaBusqueda.dtm.getRowCount(); i>0; i--){
+	            this.vistaBusqueda.dtm.removeRow(i-1);
+	        }
+		    
+		if(vistaBusqueda.cbBusqueda.getSelectedItem().equals("Seleccione") && vistaBusqueda.txtbusqueda.getText().equals("")){
+			lista = modelo.lista();			
+		}else if(vistaBusqueda.cbBusqueda.getSelectedItem().equals("Descripcion")){
+			lista = modelo.busquedaDescripcion(vistaBusqueda.txtbusqueda.getText().trim());
+		} else if(vistaBusqueda.cbBusqueda.getSelectedItem().equals("Codigo")){
+			int valor = 0;
+			try{
+				valor = Integer.parseInt(vistaBusqueda.txtbusqueda.getText().trim());	
+			}
+			catch(Exception ex){
+			   valor = 0;
+			}	
+			System.out.println(valor);
+			Almacen almacen = modelo.buscarId(valor);
+			if(almacen != null){
+				lista.add(almacen);
+			}
+		}
+		
+		
+		for(SubCategoria cl: lista){
+			fila = new Vector<Object>();
+			fila.add(cl.getSubcategoriasId());
+			fila.add(cl.getDescripcion());
+			
+			if(cl.getEstado()){
+				fila.add(new String("Activo"));
+			}else{
+				fila.add(new String("Inactivo"));
+			}
+			vistaBusqueda.dtm.addRow(fila);		
+		}
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+}

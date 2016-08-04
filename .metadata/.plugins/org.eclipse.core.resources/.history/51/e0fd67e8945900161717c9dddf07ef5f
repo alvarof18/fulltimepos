@@ -1,0 +1,14 @@
+package com.fulltimepos.vista;
+
+public class AlmacenView extends  MantenimientoGenericoView{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 858047041704621559L;
+	
+	
+	
+	
+
+}

@@ -1,0 +1,54 @@
+package com.fulltimepos.modelo;
+
+import com.fulltimepos.dao.DetalleContactoDAO;
+import com.fulltimepos.entidades.DetalleContacto;
+import com.fulltimepos.entidades.Proveedor;
+import com.fulltimepos.utilidades.Validador;
+
+public class DetalleContactoServicios extends DetalleContactoDAO<DetalleContacto>{
+	
+	public String resultado;
+	private Validador valida = new Validador();	
+	
+    public String guardar(String codigo, String nombre, String telefono, String correo, String cargo, String proveedorId, Boolean actualizar){
+		
+		this.resultado = "";
+		
+		if(nombre.isEmpty()){
+			resultado = "Complete el campo Nombre";			
+		}else if(!telefono.isEmpty()){
+			if(!valida.validarNumeros(telefono)){
+				resultado = "Campo telefono solo acepta numeros";
+			}else{
+				resultado = "Complete el campo telefono";
+			}	
+		}else if(!correo.isEmpty()){
+			  if(!valida.Correo(correo)){
+				  resultado = "Formato de correo invalido";
+			  }
+		}
+			
+		if(resultado.equals("")){
+			  if(actualizar){
+				DetalleContacto detalleContacto = new DetalleContacto();  
+				detalleContacto = super.buscarId(Integer.parseInt(codigo));
+				detalleContacto.setCargo(cargo);
+				detalleContacto.setCorreo(correo);
+				detalleContacto.setNombre(nombre);
+				detalleContacto.setTelefono(telefono);
+				super.actualizar(detalleContacto);
+				
+			  }else{
+				  Proveedor proveedor = new Proveedor();
+				  proveedor = super.buscarId(Integer.parseInt(codigo));
+				  
+				  DetalleContacto detalleContacto = new DetalleContacto(nombre,cargo,telefono,correo,proveedor);
+				super.guardar(proveedor);
+				}	
+			}
+	
+		return resultado;		
+	}
+    
+
+}

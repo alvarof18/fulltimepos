@@ -1,0 +1,12 @@
+package com.fulltimepos.dao;
+
+import java.util.List;
+
+public interface GenericoDaoInterface <T>{
+
+	public T guardar (T endidad);
+	public T actualizar(T entidad);
+	public void eliminar (T entidad);
+	public T buscarId(Object id);
+	public List<T> lista(T entidad); 
+}

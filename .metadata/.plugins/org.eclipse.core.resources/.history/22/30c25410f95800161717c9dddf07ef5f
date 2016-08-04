@@ -1,0 +1,454 @@
+package com.fulltimepos.controlador;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import com.fulltimepos.entidades.Categoria;
+import com.fulltimepos.entidades.DetalleContacto;
+import com.fulltimepos.entidades.Proveedor;
+import com.fulltimepos.entidades.SubCategoria;
+import com.fulltimepos.modelo.CategoriaServicios;
+import com.fulltimepos.modelo.DetalleContactoServicios;
+import com.fulltimepos.modelo.ProveedorServicios;
+import com.fulltimepos.vista.BusquedaGenericaView;
+import com.fulltimepos.vista.MensajesView;
+import com.fulltimepos.vista.ProveedorView;
+
+public class ControladorProveedor implements ActionListener, MouseListener{
+	
+	private ProveedorServicios modelo;
+	private DetalleContactoServicios detalleContactoServicios;
+	private ProveedorView vista;
+	
+	public MensajesView ventanaMensaje  = new MensajesView();
+	public BusquedaGenericaView vistaBusqueda = new BusquedaGenericaView();
+	
+	private String mensaje = "";
+	
+	public Proveedor proveedor;
+	
+	private boolean actualizar = false;
+	
+	
+	public ControladorProveedor(ProveedorServicios modelo, ProveedorView vista){
+		
+		this.modelo = modelo;
+		this.vista = vista;
+		this.detalleContactoServicios = new DetalleContactoServicios();
+		this.proveedor = new Proveedor();
+		
+		this.vista.setTitle("Proveedor");
+		
+		this.vista.btnGuardar.addActionListener(this);
+		this.vista.btnGuardar.setActionCommand("Guardar");
+		this.vista.btnGuardar.setEnabled(false);
+		
+		this.vista.btnNuevo.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent arg0){
+				  nuevoProvedor();
+			 }
+			 });
+					
+		this.vista.btnEliminar.addActionListener(this);
+		this.vista.btnEliminar.setActionCommand("Eliminar");
+		this.vista.btnEliminar.setEnabled(false);
+		
+		this.vista.btnModificar.addActionListener(this);
+		this.vista.btnModificar.setActionCommand("Modificar");
+		this.vista.btnModificar.setEnabled(false);
+		
+		this.vista.btnBuscar.addActionListener(this);
+		this.vista.btnBuscar.setActionCommand("Buscar");
+		
+		this.vista.btnCancelar.addActionListener(this);
+		this.vista.btnCancelar.setActionCommand("Cancelar");
+		this.vista.btnCancelar.setEnabled(false);
+		
+		//Botones de Contacto//
+		
+		this.vista.btnNuevoContacto.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent arg0){
+				 guardarContacto();
+				
+			 }
+			 });
+		
+		this.vista.btnModificarContacto.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent arg0){
+				  actualizar = true;
+				  guardarContacto();
+			 }
+			 });
+		
+		this.vista.btnEliminarContacto.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent arg0){
+				   eliminarContacto();
+			  }
+			 });
+		
+				
+		this.vista.btnModificarContacto.addActionListener(this);
+		this.vista.btnModificarContacto.setActionCommand("modificarContacto");
+		this.vista.btnModificarContacto.setEnabled(false);
+		
+		this.vista.btnEliminarContacto.addActionListener(this);
+		this.vista.btnNuevoContacto.setActionCommand("eliminarContacto");
+		this.vista.btnEliminarContacto.setEnabled(false);
+		
+		this.vista.tablaContactos.addMouseListener(this);
+		
+		this.vista.setLocationRelativeTo(null);
+				
+		accionCampos(false);
+		
+		this.vista.setVisible(true);
+		
+		//Vista de Busqueda//
+		
+		this.vistaBusqueda.btnBuscar.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent accion){
+					   buscarDatos();				 
+					 }
+					 });
+				
+		this.vistaBusqueda.tbResultado.addMouseListener(this);	
+	}
+		
+	private void buscarDatos() {
+		List<Proveedor> lista = new ArrayList<Proveedor>();
+		Vector<Object> fila;
+		
+		// Limpio la tabla
+		 for(int i=this.vistaBusqueda.dtm.getRowCount(); i>0; i--){
+	            this.vistaBusqueda.dtm.removeRow(i-1);
+	        }
+		    
+		if(vistaBusqueda.cbBusqueda.getSelectedItem().equals("Seleccione") && vistaBusqueda.txtbusqueda.getText().equals("")){
+			lista = modelo.lista();			
+		}else if(vistaBusqueda.cbBusqueda.getSelectedItem().equals("Descripcion")){
+			lista = modelo.busquedaDescripcion(vistaBusqueda.txtbusqueda.getText().trim());
+		} else if(vistaBusqueda.cbBusqueda.getSelectedItem().equals("Codigo")){
+			int valor = 0;
+			try{
+				valor = Integer.parseInt(vistaBusqueda.txtbusqueda.getText().trim());	
+			}
+			catch(Exception ex){
+			   valor = 0;
+			}	
+			System.out.println(valor);
+			Proveedor proveedor = modelo.buscarId(valor);
+			if(proveedor != null){
+				lista.add(proveedor);
+			}
+		}else if(vistaBusqueda.cbBusqueda.getSelectedItem().equals("Estado")){
+			boolean estado= true;
+			if(vistaBusqueda.txtbusqueda.getText().toLowerCase().equals("activo")){
+			 estado = true;
+			}else if(vistaBusqueda.txtbusqueda.getText().toLowerCase().equals("inactivo")){
+				estado = false;
+			}else{
+				
+			}
+			lista = modelo.busquedaEstado(estado);
+		}
+		
+		for(Proveedor cl: lista){
+			fila = new Vector<Object>();
+			fila.add(cl.getProveedorId());
+			fila.add(cl.getNombre());
+			
+			if(cl.getEstado()){
+				fila.add(new String("Activo"));
+			}else{
+				fila.add(new String("Inactivo"));
+			}
+			vistaBusqueda.dtm.addRow(fila);		
+		}
+		
+	}
+	
+	private void guardarinfo() {
+		mensaje = "";
+		
+		mensaje = this.modelo.guardar(vista.txtCodigo.getText(),vista.txtRUC.getText(),vista.txtNombre.getText(),vista.txtDireccion.getText(),vista.txtTelefono.getText(),
+				                      vista.txtFax.getText(),vista.txtCorreo.getText(),vista.txtWeb.getText(),vista.txtObservacion.getText(),vista.Activar.isSelected(),actualizar);
+		
+		if(mensaje.equals("")){
+			if(actualizar){
+			   vista.btnModificar.setEnabled(false);
+			   vista.btnNuevo.setEnabled(true);
+			   limpiarCampos();
+			   ventanaMensaje.mensajes("Informacion actualizada", 1);
+			}else{
+			   ventanaMensaje.mensajes("Proveedor creado de forma satisfactoria", 1);
+			   limpiarCampos();
+			}
+			
+			 accionCampos(false);
+			 this.vista.btnGuardar.setEnabled(false);
+			 this.vista.btnCancelar.setEnabled(false);
+		}else{
+			   ventanaMensaje.mensajes(mensaje, 2);
+		     }
+
+	}
+	
+	public void nuevoProvedor() {
+		 limpiarCampos();
+		 accionCampos(true);
+		 vista.txtCodigo.setText(modelo.codigo());
+		 vista.btnGuardar.setEnabled(true);
+		 vista.btnCancelar.setEnabled(true);	
+	}
+	
+	public void limpiarCampos(){
+		vista.txtCodigo.setText("");
+		vista.txtRUC.setText("");
+		vista.txtNombre.setText("");
+		vista.txtDireccion.setText("");
+		vista.txtCorreo.setText("");
+		vista.txtTelefono.setText("");
+		vista.txtFax.setText("");
+		vista.txtWeb.setText("");
+		vista.txtObservacion.setText("");
+		vista.Activar.setSelected(false);
+		
+	}
+	
+	private void accionCampos(boolean accion) {
+		
+		vista.txtRUC.setEnabled(accion);
+		vista.txtNombre.setEditable(accion);
+		vista.txtDireccion.setEditable(accion);
+		vista.txtCorreo.setEditable(accion);
+		vista.txtTelefono.setEditable(accion);
+		vista.txtFax.setEditable(accion);
+		vista.txtWeb.setEditable(accion);
+		vista.txtObservacion.setEditable(accion);
+		vista.Activar.setEnabled(accion);
+		
+	}
+	
+   private void cargarDatos(Proveedor proveedor) {
+		
+		vista.txtCodigo.setText(String.valueOf(proveedor.getProveedorId()));
+		vista.txtRUC.setText(proveedor.getRuc());
+		vista.txtNombre.setText(proveedor.getNombre());
+		vista.txtDireccion.setText(proveedor.getDireccion());
+		vista.txtCorreo.setText(proveedor.getCorreo());
+		vista.txtTelefono.setText(proveedor.getTelefono());
+		vista.txtFax.setText(proveedor.getFax());
+		vista.txtWeb.setText(proveedor.getWeb());
+		vista.txtObservacion.setText(proveedor.getObservacion());
+		
+		if(proveedor.getEstado()){
+			vista.Activar.setSelected(true);
+		}else{
+			vista.Activar.setSelected(false);
+		}
+			
+	}
+   
+	private void cargarTablaContactos(Proveedor proveedor){
+		
+		List<DetalleContacto> lista = new ArrayList<DetalleContacto>();
+		Vector<Object> fila;
+				
+		// Limpio la tabla
+		 for(int i=this.vista.dtm.getRowCount(); i>0; i--){
+	            this.vista.dtm.removeRow(i-1);
+	        }
+		
+		  lista = detalleContactoServicios.listaByProveedor(proveedor);			
+		
+		for(DetalleContacto dc: lista){
+			fila = new Vector<Object>();
+			fila.add(dc.getDetalleContatoId());
+			fila.add(dc.getNombre());
+			fila.add(dc.getCargo());
+			fila.add(dc.getTelefono());
+			fila.add(dc.getCorreo());
+			vista.dtm.addRow(fila);		
+		}
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent accion) {
+		String comando = accion.getActionCommand();
+
+		switch (comando){
+		
+		case "Guardar":
+			guardarinfo();
+			break;
+		
+		case "Buscar":
+			// Limpio la tabla
+			 for(int i=this.vistaBusqueda.dtm.getRowCount(); i>0; i--){
+		            this.vistaBusqueda.dtm.removeRow(i-1);
+		        }
+			 // Limpiar caja de Texto de Busqueda
+		        vistaBusqueda.txtbusqueda.setText("");
+			
+			 accionCampos(false);
+			this.vistaBusqueda.setLocationRelativeTo(null);
+			this.vistaBusqueda.setVisible(true);
+			break;
+			
+		case "Modificar":
+			accionCampos(true);
+			this.actualizar = true;
+			this.vista.btnGuardar.setEnabled(true);
+			this.vista.btnCancelar.setEnabled(true);
+			this.vista.btnModificar.setEnabled(false);
+			break;
+					
+		case "Cancelar":
+			accionCampos(false);
+			limpiarCampos();
+			this.vista.btnModificar.setEnabled(false);
+			this.vista.btnNuevo.setEnabled(true);
+			this.vista.btnGuardar.setEnabled(false);
+			this.vista.btnCancelar.setEnabled(false);
+			break;
+		
+		}	
+				
+	}
+
+	private void guardarContacto() {
+		
+        mensaje = "";
+        
+        mensaje = detalleContactoServicios.guardar(vista.idContacto.getText(), vista.txtNombreContacto.getText(), vista.txtTelefonoContacto.getText(), 
+        										   vista.txtCorreoContacto.getText(), vista.txtCargoContacto.getText(), proveedor, actualizar);
+		
+		if(mensaje.equals("")){
+			if(actualizar){
+			   vista.btnModificarContacto.setEnabled(false);
+			   vista.btnNuevoContacto.setEnabled(true);
+			   vista.btnEliminarContacto.setEnabled(false);
+			   limpiarCamposContactos();
+			   ventanaMensaje.mensajes("Informacion actualizada", 1);
+			   actualizar = false;
+			}else{
+			   ventanaMensaje.mensajes("Contacto agregado exitosamente", 1);
+			   limpiarCamposContactos();
+			}
+			actualizaTabla();
+			
+		}else{
+			   ventanaMensaje.mensajes(mensaje, 2);
+		     }	
+	}
+	
+	
+	private void actualizaTabla() {
+		cargarTablaContactos(proveedor);
+		vista.dtm.fireTableDataChanged();
+	}
+
+	private void limpiarCamposContactos() {
+	   
+		vista.txtNombreContacto.setText("");
+		vista.txtCargoContacto.setText("");
+		vista.txtTelefonoContacto.setText("");
+		vista.txtCorreoContacto.setText("");
+		vista.idContacto.setText("");
+		
+	}
+	
+	private void eliminarContacto() {
+		
+		detalleContactoServicios.eliminar(codigo);
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent evento) {
+		int filaSeleccionada;
+		int id;
+		
+		if(evento.getClickCount() == 2 && evento.getComponent().getName().equals("tbResultado")){
+			
+		    filaSeleccionada = vistaBusqueda.tbResultado.getSelectedRow();
+			
+			if(filaSeleccionada >= 0){
+				this.proveedor = null;
+				id = (int) this.vistaBusqueda.dtm.getValueAt(filaSeleccionada,0);
+				Proveedor proveedor = modelo.buscarId(id);
+				cargarDatos(proveedor);
+				cargarTablaContactos(proveedor);
+				vistaBusqueda.setVisible(false);
+				vista.btnModificar.setEnabled(true);
+				vista.btnNuevo.setEnabled(false);
+				vista.btnNuevoContacto.setEnabled(true);
+				this.proveedor = proveedor;
+			}
+		}
+		
+		if(evento.getClickCount() == 2 && evento.getComponent().getName().equals("tablaContactos")){
+			filaSeleccionada = 0;
+			id = 0;
+			filaSeleccionada = vista.tablaContactos.getSelectedRow();
+		    
+		    if(filaSeleccionada >= 0){
+		     id = (int) this.vista.dtm.getValueAt(filaSeleccionada, 0);
+		     DetalleContacto detalleContacto = detalleContactoServicios.buscarId(id);
+		     cargarDatosContactos(detalleContacto);	
+		     vista.btnModificarContacto.setEnabled(true);
+		     vista.btnNuevoContacto.setEnabled(false);
+		     vista.btnEliminarContacto.setEnabled(true);
+		    }		
+		}
+		
+	}
+
+
+	private void cargarDatosContactos(DetalleContacto detalleContacto) {
+	
+		vista.txtNombreContacto.setText(detalleContacto.getNombre());
+		vista.txtTelefonoContacto.setText(detalleContacto.getTelefono());
+		vista.txtCargoContacto.setText(detalleContacto.getCargo());
+		vista.txtCorreoContacto.setText(detalleContacto.getCorreo());
+		vista.idContacto.setText(String.valueOf(detalleContacto.getDetalleContatoId()));
+	
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

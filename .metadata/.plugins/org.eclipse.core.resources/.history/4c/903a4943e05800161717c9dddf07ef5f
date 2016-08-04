@@ -1,0 +1,7 @@
+package com.fulltimepos.modelo;
+
+import com.fulltimepos.entidades.DetalleContacto;
+
+public class DetalleContactoServicios extends DetalleContactoDAO<DetalleContacto>{
+
+}

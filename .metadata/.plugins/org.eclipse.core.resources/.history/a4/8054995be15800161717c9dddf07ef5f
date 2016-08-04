@@ -1,0 +1,7 @@
+package com.fulltimepos.dao;
+
+import com.fulltimepos.entidades.DetalleContacto;
+
+public class DetalleContactoDAO<DetalleContacto> extends GenericoDAOImplementa<DetalleContacto>{
+
+}

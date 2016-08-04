@@ -1,0 +1,69 @@
+package com.fulltimepos.dao;
+
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
+import java.lang.reflect.ParameterizedType;
+
+import com.fulltimepos.utilidades.HibernateUtil;
+
+public abstract class GenericoDaoImplenta<T> implements GenericoDaoInterface<T> {
+	
+	private Session sesionActual;
+    private HibernateUtil sesionHibernate = new HibernateUtil();  
+    private Class<T> tipo;
+    /*
+    public GenericoDaoImplenta(Class<T> clase){
+    	this.tipo = clase;    	
+    }
+    */
+    public GenericoDaoImplenta(){
+    	 super();
+    	 this.tipo = (Class<T>)getParameterClass(getClass(), 0);
+    }
+    
+    
+   	@Override
+	public T guardar(T entidad) {
+		 sesionActual = sesionHibernate.SesionTransaccion();
+		 sesionActual.persist(entidad);
+	     sesionHibernate.cerrarsesionTransaccion();
+		 return entidad;
+	}
+
+	@Override
+	public T actualizar(T entidad) {
+		sesionActual = sesionHibernate.SesionTransaccion();
+		sesionActual.update(entidad);
+		sesionHibernate.cerrarsesionTransaccion();
+		return entidad;
+	}
+
+	@Override
+	public void eliminar(T entidad) {
+		sesionActual = sesionHibernate.SesionTransaccion();
+		sesionActual.delete(entidad);
+		sesionHibernate.cerrarsesionTransaccion();
+	}
+
+	@Override
+	public T buscarId(Object id) {
+		sesionActual = sesionHibernate.SesionTransaccion();
+		return sesionActual.find(tipo, id);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<T> lista(T entidad) {
+		sesionActual = sesionHibernate.SesionTransaccion();
+		Query<T> query = sesionActual.createQuery("from " + entidad.getClass());      
+		return query.getResultList();
+	}
+	
+	private static Class<?> getParameterClass(Class<?> clazz, int index) {
+	        return (Class<?>)(((ParameterizedType)clazz.getGenericSuperclass()).getActualTypeArguments()[index]);
+	    }
+
+}

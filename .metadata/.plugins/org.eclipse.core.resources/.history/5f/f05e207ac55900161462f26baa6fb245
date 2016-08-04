@@ -1,0 +1,9 @@
+package com.fulltimepos.controlador;
+
+import com.fulltimepos.modelo.AlmacenServicios;
+
+public class ControladorAlmacen {
+	
+	private AlmacenServicios modelo;
+
+}

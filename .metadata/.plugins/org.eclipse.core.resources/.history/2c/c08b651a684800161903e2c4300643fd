@@ -1,0 +1,5 @@
+package com.fulltimepos.dao;
+
+public class PagosFacturasDAO extends GenericoDAOImplementa<PagosFacturas>{
+
+}

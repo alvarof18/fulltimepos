@@ -1,0 +1,7 @@
+package com.fulltimepos.dao;
+
+import com.fulltimepos.entidades.Almacen;
+
+public class AlmacenDAO<Almacen> extends GenericoDAOImplementa<Almacen>{
+
+}
